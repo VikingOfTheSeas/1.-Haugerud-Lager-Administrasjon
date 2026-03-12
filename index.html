@@ -41,12 +41,7 @@
   <!-- LAGER -->
   <section id="lager" class="tab-content active">
     <div class="filters-row">
-      <div class="search-box">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
-        </svg>
-        <input type="text" id="searchInput" placeholder="Søk navn, ID, serienummer, låntaker…">
-      </div>
+      <input type="text" id="searchInput" class="filter-input search-input" placeholder="Søk navn, ID, serienummer, låntaker…" style="flex:1;min-width:0">
       <select id="filterKategori" class="filter-input">
         <option value="Alle">Alle kategorier</option>
       </select>
@@ -60,10 +55,18 @@
       <div class="filter-count"><span id="count-shown">0</span>&thinsp;/&thinsp;<span id="count-total">0</span></div>
     </div>
 
+    <div id="batchBar" class="batch-bar" style="display:none">
+      <span id="batchCount">0 valgt</span>
+      <button class="btn-batch-utlan" onclick="batchUtlan()">📤 Sett alle som utlånt</button>
+      <button class="btn-batch-tilg" onclick="batchTilgjengelig()">✅ Sett alle tilgjengelig</button>
+      <button class="btn-batch-clear" onclick="clearValg()">✕ Avbryt</button>
+    </div>
+
     <div class="table-wrap">
       <table class="items-table">
         <thead>
           <tr>
+            <th style="width:36px"><input type="checkbox" id="selectAll" onchange="toggleSelectAll(this)" class="row-checkbox"></th>
             <th onclick="setSorter('id')">ID ⇅</th>
             <th onclick="setSorter('navn')">Navn ⇅</th>
             <th onclick="setSorter('kategori')" class="col-hide-sm">Kategori ⇅</th>
@@ -120,6 +123,17 @@
         <div class="form-field">
           <label>Notater</label>
           <textarea id="itemNotater" rows="2" style="resize:vertical"></textarea>
+        </div>
+        <div class="form-field">
+          <label>Bilde av hylleplassen (valgfritt)</label>
+          <div class="bilde-upload-row">
+            <label class="btn-file-upload" for="addBildeFilInput">📁 Last opp fra enhet</label>
+            <input type="file" id="addBildeFilInput" accept="image/*" style="display:none" onchange="lastOppBildeAdd(this)">
+            <span class="bilde-upload-sep">eller</span>
+            <input type="text" id="addBildeUrl" placeholder="Lim inn URL" style="flex:1;min-width:0;padding:8px 10px;background:rgba(255,255,255,0.07);border:1px solid rgba(70,189,198,0.22);border-radius:8px;color:#e2e8f0;font-size:13px;font-family:inherit;outline:none">
+          </div>
+          <div id="addBildeStatus" class="bilde-upload-status" style="display:none"></div>
+          <img id="addBildePrev" style="display:none;width:100%;max-height:120px;object-fit:cover;border-radius:8px;margin-top:8px;border:1px solid rgba(70,189,198,0.2)">
         </div>
         <button type="submit" id="addBtn" class="btn-submit">➕ Legg til i lageret</button>
       </form>
