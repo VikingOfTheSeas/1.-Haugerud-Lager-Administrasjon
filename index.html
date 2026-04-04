@@ -324,16 +324,40 @@
 
 <!-- NY BOKS MODAL -->
 <div id="nyBoksModal" class="modal-overlay">
-  <div class="modal" style="max-width:420px">
+  <div class="modal" style="max-width:460px">
     <div class="modal-header">
       <span class="modal-title">📦 Ny boks</span>
       <button class="modal-close" onclick="lukkNyBoks()">✕</button>
     </div>
     <div class="modal-body">
-      <div class="form-field"><label>ID *</label><input type="text" id="nyBoksId" placeholder="f.eks. BOKS-01, VERKTOY"></div>
-      <div class="form-field"><label>Navn *</label><input type="text" id="nyBoksNavn" placeholder="f.eks. Verktøyboks"></div>
-      <div class="form-field"><label>Hylleplassering</label><input type="text" id="nyBoksHylle" placeholder="f.eks. A1"></div>
-      <div class="form-field"><label>Beskrivelse</label><input type="text" id="nyBoksBeskrivelse" placeholder="Valgfritt"></div>
+      <div class="form-field">
+        <label>Hylleplassering *</label>
+        <input type="text" id="nyBoksHylle" placeholder="f.eks. A1, B3, C12…" oninput="genererBoksId()" required>
+        <span class="field-hint">Brukes til å generere ID automatisk</span>
+      </div>
+      <div class="form-field">
+        <label>ID (genereres automatisk)</label>
+        <input type="text" id="nyBoksId" readonly style="background:rgba(70,189,198,0.06);color:var(--primary);font-family:'DM Mono',monospace;font-weight:700;cursor:default" placeholder="Fyll inn hylleplassering først">
+      </div>
+      <div class="form-field">
+        <label>Navn *</label>
+        <input type="text" id="nyBoksNavn" placeholder="f.eks. Verktøyboks, Teltboks…" required>
+      </div>
+      <div class="form-field">
+        <label>Beskrivelse</label>
+        <input type="text" id="nyBoksBeskrivelse" placeholder="Valgfritt">
+      </div>
+      <div class="form-field">
+        <label>Bilde (valgfritt)</label>
+        <div class="bilde-upload-row">
+          <label class="btn-file-upload" for="nyBoksBildeInput">📁 Last opp</label>
+          <input type="file" id="nyBoksBildeInput" accept="image/*" style="display:none" onchange="forhandsvisBoksBilde(this)">
+          <span class="bilde-upload-sep">eller</span>
+          <input type="text" id="nyBoksBildeUrl" placeholder="Lim inn URL" style="flex:1;min-width:0;padding:8px 10px;background:rgba(255,255,255,0.07);border:1px solid rgba(70,189,198,0.22);border-radius:8px;color:#e2e8f0;font-size:13px;font-family:inherit">
+        </div>
+        <div id="nyBoksBildeStatus" class="bilde-upload-status" style="display:none"></div>
+        <img id="nyBoksBildePrev" style="display:none;width:100%;max-height:120px;object-fit:cover;border-radius:8px;margin-top:8px;border:1px solid rgba(70,189,198,0.2)">
+      </div>
     </div>
     <div class="modal-footer">
       <button class="btn-cancel" onclick="lukkNyBoks()">Avbryt</button>
